@@ -10,3 +10,4 @@ export { default as Typography } from './Typography';
 export { default as UserList } from './UserList';
 export { default as PatientList } from './Patient/PatientList';
 export { default as PatientView } from './Patient/PatientView';
+export { default as PatientAdd } from './Patient/PatientAdd';

@@ -31,11 +31,12 @@ const useStyles = makeStyles(theme => ({
 
 const PatientsToolbar = props => {
   const { className, ...rest } = props;
-  const { open, openEdit } = useContext(PatientEdit);
+  const { open, openEdit, setOpenEdit } = useContext(PatientEdit);
 
   const classes = useStyles();
 
   const handleBack = () => {
+    setOpenEdit(false);
     history.goBack();
   };
 

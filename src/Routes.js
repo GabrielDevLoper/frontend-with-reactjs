@@ -10,6 +10,7 @@ import {
   UserList as UserListView,
   PatientList as PatientListView,
   PatientView,
+  PatientAdd as PatientAddView,
   Typography as TypographyView,
   Icons as IconsView,
   Account as AccountView,
@@ -55,6 +56,13 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/patient-view/:patient_id"
+        isPrivate
+      />
+      <RouteWithLayout
+        component={PatientAddView}
+        exact
+        layout={MainLayout}
+        path="/patient-add"
         isPrivate
       />
       <RouteWithLayout

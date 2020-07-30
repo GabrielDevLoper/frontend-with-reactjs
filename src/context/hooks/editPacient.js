@@ -10,7 +10,7 @@ function PatientProvider({ children }) {
   };
 
   return (
-    <PatientEdit.Provider value={{ openEdit, open }}>
+    <PatientEdit.Provider value={{ openEdit, open, setOpenEdit }}>
       {children}
     </PatientEdit.Provider>
   );

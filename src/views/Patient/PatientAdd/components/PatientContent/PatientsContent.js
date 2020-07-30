@@ -7,6 +7,7 @@ import { makeStyles, withStyles } from '@material-ui/styles';
 import Input from '../../../../../components/Input';
 import api from '../../../../../services/api';
 import InputMask from 'react-input-mask';
+import Swal from 'sweetalert2';
 
 import { Form } from '@unform/web';
 import {
@@ -95,16 +96,21 @@ const PatientsContent = props => {
     } = data;
     const user_id = localStorage.getItem('id');
 
-    const response = await api.post(`/users/${user_id}/pacients`, {
-      name,
-      pront_req_interno,
-      procedencia,
-      convenio,
-      medico_solicitante,
-      fone,
-      data_entrega,
-      exams: selectedExams
-    });
+    try {
+      const response = await api.post(`/users/${user_id}/pacients`, {
+        name,
+        pront_req_interno,
+        procedencia,
+        convenio,
+        medico_solicitante,
+        fone,
+        data_entrega,
+        exams: selectedExams
+      });
+      Swal.fire('Good job!', 'You clicked the button!', 'success');
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
@@ -134,8 +140,7 @@ const PatientsContent = props => {
           <Form
             className={classes.form}
             ref={formRef}
-            onSubmit={handleAddClient}
-            noValidate>
+            onSubmit={handleAddClient}>
             <Box className={classes.inner}>
               <Box className={classes.inputGroup}>
                 <Input id="standard-basic" label="Nome" name="name" required />

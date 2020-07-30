@@ -110,17 +110,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SignIn = props => {
-  const { history } = props;
   const { handleLogin, authenticated } = useContext(Context);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const classes = useStyles();
-
-  const handleBack = () => {
-    history.goBack();
-  };
 
   const handleSignIn = event => {
     event.preventDefault();

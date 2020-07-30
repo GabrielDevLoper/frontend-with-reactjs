@@ -23,15 +23,24 @@ export default function useAuth() {
       password
     });
 
-    const { token, username: name, id, role } = data;
-    localStorage.setItem('token', JSON.stringify(token));
-    localStorage.setItem('username', name);
-    localStorage.setItem('id', id);
-    localStorage.setItem('role', role);
+    if (data.messageAlert) {
+      alert(`${data.messageAlert}`);
+      history.push('/sign-in');
+    }
 
-    api.defaults.headers.Authorization = `Bearer ${token}`;
-    setAuthenticated(true);
-    history.push('/dashboard');
+    const { token, username: name, id, role } = data;
+
+    if (token) {
+      localStorage.setItem('token', JSON.stringify(token));
+      localStorage.setItem('username', name);
+      localStorage.setItem('id', id);
+      localStorage.setItem('role', role);
+
+      api.defaults.headers.Authorization = `Bearer ${token}`;
+      setAuthenticated(true);
+      console.log(data);
+      history.push('/dashboard');
+    }
   }
 
   function handleLogout() {
@@ -39,6 +48,7 @@ export default function useAuth() {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
     localStorage.removeItem('id');
+    localStorage.removeItem('role');
     api.defaults.headers.Authorization = undefined;
     history.push('/sign-in');
   }

@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/styles';
 import api from '../../../services/api';
 
 import { PatientsToolbar, PatientsContent } from './components';
+import { Transictions } from 'components/Transictions';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -30,10 +31,12 @@ const PatientView = props => {
 
   return (
     <div className={classes.root}>
-      <PatientsToolbar />
-      <div className={classes.content}>
-        <PatientsContent patients={patient} />
-      </div>
+      <Transictions>
+        <PatientsToolbar />
+        <div className={classes.content}>
+          <PatientsContent patients={patient} />
+        </div>
+      </Transictions>
     </div>
   );
 };

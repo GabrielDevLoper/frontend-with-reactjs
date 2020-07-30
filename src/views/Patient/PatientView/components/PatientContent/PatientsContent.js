@@ -6,23 +6,10 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import { Patient } from '../../../../../context/hooks/Pacient';
 
 import { makeStyles } from '@material-ui/styles';
-import {
-  Card,
-  CardActions,
-  CardContent,
-  Avatar,
-  Checkbox,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Typography,
-  TablePagination,
-  IconButton
-} from '@material-ui/core';
+import { Card, CardContent } from '@material-ui/core';
 
 import PatientsEdit from '../PatientEdit';
+import { Transictions } from 'components/Transictions';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -62,20 +49,22 @@ const PatientsContent = props => {
           {openEdit ? (
             <PatientsEdit patient={patients} className={classes.inner} />
           ) : (
-            <div className={classes.inner}>
-              <div>
-                <h3>Nome: {patients.name}</h3>
-                <h3>Pront./Reque./Interno: {patients.pront_req_interno}</h3>
-                <h3>Convênio: {patients.convenio}</h3>
-                <h3>Procedência:{patients.procedencia}</h3>
+            <Transictions>
+              <div className={classes.inner}>
+                <div>
+                  <h3>Nome: {patients.name}</h3>
+                  <h3>Pront./Reque./Interno: {patients.pront_req_interno}</h3>
+                  <h3>Convênio: {patients.convenio}</h3>
+                  <h3>Procedência:{patients.procedencia}</h3>
+                </div>
+                <div>
+                  <h3>Médico Solicitante: {patients.medico_solicitante}</h3>
+                  <h3>Fone: {patients.fone}</h3>
+                  <h3>Data de Entrega: {patients.data_entrega}</h3>
+                  <h3>Data de Criação: {data_de_criação}</h3>
+                </div>
               </div>
-              <div>
-                <h3>Médico Solicitante: {patients.medico_solicitante}</h3>
-                <h3>Fone: {patients.fone}</h3>
-                <h3>Data de Entrega: {patients.data_entrega}</h3>
-                <h3>Data de Criação: {data_de_criação}</h3>
-              </div>
-            </div>
+            </Transictions>
           )}
         </PerfectScrollbar>
       </CardContent>

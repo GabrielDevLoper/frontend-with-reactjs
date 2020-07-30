@@ -94,6 +94,7 @@ const PatientsContent = props => {
       fone,
       data_entrega
     } = data;
+    //pegando id disponivel no localstorage do browser
     const user_id = localStorage.getItem('id');
 
     try {
@@ -107,7 +108,7 @@ const PatientsContent = props => {
         data_entrega,
         exams: selectedExams
       });
-      Swal.fire('Sucesso', `${response.data}`, 'success');
+      Swal.fire('Sucesso', 'Cadastrado com sucesso', 'success');
     } catch (error) {
       console.log(error);
     }

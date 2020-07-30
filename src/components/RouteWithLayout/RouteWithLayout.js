@@ -3,6 +3,7 @@ import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { Context } from '../../context/AuthContext';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const RouteWithLayout = props => {
   const { isPrivate, layout: Layout, component: Component, ...rest } = props;
@@ -10,7 +11,7 @@ const RouteWithLayout = props => {
   const { authenticated, loading } = useContext(Context);
 
   if (loading) {
-    return <h1>Carregando...</h1>;
+    return <CircularProgress />;
   }
 
   if (isPrivate && !authenticated) {

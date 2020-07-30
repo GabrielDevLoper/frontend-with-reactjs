@@ -38,7 +38,6 @@ export default function useAuth() {
 
       api.defaults.headers.Authorization = `Bearer ${token}`;
       setAuthenticated(true);
-      console.log(data);
       history.push('/dashboard');
     }
   }

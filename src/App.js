@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Router } from 'react-router-dom';
 import { Chart } from 'react-chartjs-2';
 import { ThemeProvider } from '@material-ui/styles';
@@ -12,7 +12,7 @@ import Routes from './Routes';
 import { AuthProvider } from './context/AuthContext';
 import { PatientProvider } from './context/hooks/Pacient';
 import history from './history';
-
+import { Transictions } from './components/Transictions';
 Chart.helpers.extend(Chart.elements.Rectangle.prototype, {
   draw: chartjs.draw
 });
@@ -22,9 +22,9 @@ validate.validators = {
   ...validators
 };
 
-export default class App extends Component {
-  render() {
-    return (
+export default function App() {
+  return (
+    <Transictions>
       <AuthProvider>
         <PatientProvider>
           <ThemeProvider theme={theme}>
@@ -34,6 +34,6 @@ export default class App extends Component {
           </ThemeProvider>
         </PatientProvider>
       </AuthProvider>
-    );
-  }
+    </Transictions>
+  );
 }

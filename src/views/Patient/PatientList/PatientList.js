@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import api from '../../../services/api';
-import { confirmAlert } from 'react-confirm-alert';
-
 import { PatientsToolbar, PatientsTable } from './components';
+import { Transictions } from '../../../components/Transictions';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,10 +28,12 @@ const PatientList = () => {
 
   return (
     <div className={classes.root}>
-      <PatientsToolbar />
-      <div className={classes.content}>
-        <PatientsTable patients={patients} setPatients={setPatients} />
-      </div>
+      <Transictions>
+        <PatientsToolbar />
+        <div className={classes.content}>
+          <PatientsTable patients={patients} setPatients={setPatients} />
+        </div>
+      </Transictions>
     </div>
   );
 };

@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/styles';
 import api from '../../services/api';
 
 import { UsersToolbar, UsersTable } from './components';
+import { Transictions } from '../../components/Transictions';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,10 +29,12 @@ const UserList = () => {
 
   return (
     <div className={classes.root}>
-      <UsersToolbar />
-      <div className={classes.content}>
-        <UsersTable users={users} />
-      </div>
+      <Transictions>
+        <UsersToolbar />
+        <div className={classes.content}>
+          <UsersTable users={users} />
+        </div>
+      </Transictions>
     </div>
   );
 };

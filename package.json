@@ -41,6 +41,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-chartjs-2": "^2.7.6",
+    "react-confirm-alert": "^2.6.1",
     "react-dom": "^16.8.6",
     "react-input-mask": "^2.0.4",
     "react-perfect-scrollbar": "^1.5.3",

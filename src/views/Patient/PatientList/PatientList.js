@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import api from '../../../services/api';
+import { confirmAlert } from 'react-confirm-alert';
 
 import { PatientsToolbar, PatientsTable } from './components';
 
@@ -30,7 +31,7 @@ const PatientList = () => {
     <div className={classes.root}>
       <PatientsToolbar />
       <div className={classes.content}>
-        <PatientsTable patients={patients} />
+        <PatientsTable patients={patients} setPatients={setPatients} />
       </div>
     </div>
   );

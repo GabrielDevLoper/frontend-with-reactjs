@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import { Button, IconButton } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import { PatientEdit } from '../../../../../context/hooks/editPacient';
+import { Patient } from '../../../../../context/hooks/Pacient';
 import history from '../../../../../history';
 
 const useStyles = makeStyles(theme => ({
@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
 
 const PatientsToolbar = props => {
   const { className, ...rest } = props;
-  const { open, openEdit, setOpenEdit } = useContext(PatientEdit);
+  const { open, openEdit, setOpenEdit } = useContext(Patient);
 
   const classes = useStyles();
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -17,13 +17,16 @@ import {
   TableRow,
   Typography,
   TablePagination,
-  IconButton
+  IconButton,
+  Button
 } from '@material-ui/core';
 import VisibilityIcon from '@material-ui/icons/Visibility';
-
 import { getInitials } from 'helpers';
-
 import history from '../../../../../history';
+import DeleteIcon from '@material-ui/icons/Delete';
+import api from '../../../../../services/api';
+import { confirmAlert } from 'react-confirm-alert';
+import Swal from 'sweetalert2';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -42,11 +45,32 @@ const useStyles = makeStyles(theme => ({
   },
   actions: {
     justifyContent: 'flex-end'
+  },
+  btnGroup: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20
+  },
+  btnYes: {
+    width: '160px',
+    padding: '10px',
+    color: '#fff',
+    cursor: 'pointer',
+    marginLeft: 10
+  },
+  confirmDelete: {
+    textAlign: 'center',
+    width: '500px',
+    padding: '40px',
+    backgroundColor: '#373B53',
+    boxShadow: '0 20px 75px rgba(0, 0, 0, 0.23)',
+    color: '#fff'
   }
 }));
 
 const PatientsTable = props => {
-  const { className, patients, ...rest } = props;
+  const { className, patients, setPatients, ...rest } = props;
 
   const classes = useStyles();
   const [selectedPatients, setSelectedPatients] = useState([]);
@@ -63,7 +87,6 @@ const PatientsTable = props => {
     } else {
       selectedPatients = [];
     }
-
     setSelectedPatients(selectedPatients);
   };
 
@@ -99,6 +122,42 @@ const PatientsTable = props => {
     setRowsPerPage(event.target.value);
   };
 
+  async function handlePatientDelete(patient_id) {
+    confirmAlert({
+      customUI: ({ onClose }) => {
+        return (
+          <div className={classes.confirmDelete}>
+            <h1>Você tem certeza?</h1>
+            <p>Deseja excluir este paciente?</p>
+            <div className={classes.btnGroup}>
+              <Button
+                variant="contained"
+                className={classes.btnYes}
+                color="primary"
+                onClick={onClose}>
+                Não
+              </Button>
+              <Button
+                variant="contained"
+                color="secondary"
+                className={classes.btnYes}
+                onClick={async () => {
+                  await api.delete(`/pacients/${patient_id}`);
+                  setPatients(
+                    patients.filter(patient => patient.id !== patient_id)
+                  );
+                  onClose();
+                  Swal.fire('Sucesso', 'Excluído com sucesso', 'success');
+                }}>
+                Sim, exclua-o!
+              </Button>
+            </div>
+          </div>
+        );
+      }
+    });
+  }
+
   const handlePatientView = patient_id => {
     history.push(`/patient-view/${patient_id}`);
   };
@@ -111,7 +170,8 @@ const PatientsTable = props => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell padding="checkbox">
+                  {/* Comentando os check box */}
+                  {/* <TableCell padding="checkbox">
                     <Checkbox
                       checked={selectedPatients.length === patients.length}
                       color="primary"
@@ -121,13 +181,14 @@ const PatientsTable = props => {
                       }
                       onChange={handleSelectAll}
                     />
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell>Nome</TableCell>
                   <TableCell>Pront./Req./Interno</TableCell>
                   <TableCell>Convenio</TableCell>
                   <TableCell>Procedencia</TableCell>
                   <TableCell>Data de Criação</TableCell>
                   <TableCell>Visualizar</TableCell>
+                  <TableCell>Excluir</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -137,14 +198,14 @@ const PatientsTable = props => {
                     hover
                     key={patient.id}
                     selected={selectedPatients.indexOf(patient.id) !== -1}>
-                    <TableCell padding="checkbox">
+                    {/* <TableCell padding="checkbox">
                       <Checkbox
                         checked={selectedPatients.indexOf(patient.id) !== -1}
                         color="primary"
                         onChange={event => handleSelectOne(event, patient.id)}
                         value="true"
                       />
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell>
                       <div className={classes.nameContainer}>
                         <Avatar
@@ -164,6 +225,12 @@ const PatientsTable = props => {
                     <TableCell>
                       <IconButton onClick={() => handlePatientView(patient.id)}>
                         <VisibilityIcon />
+                      </IconButton>
+                    </TableCell>
+                    <TableCell>
+                      <IconButton
+                        onClick={() => handlePatientDelete(patient.id)}>
+                        <DeleteIcon />
                       </IconButton>
                     </TableCell>
                   </TableRow>

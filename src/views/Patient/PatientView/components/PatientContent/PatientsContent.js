@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import { PatientEdit } from '../../../../../context/hooks/editPacient';
+import { Patient } from '../../../../../context/hooks/Pacient';
 
 import { makeStyles } from '@material-ui/styles';
 import {
@@ -53,7 +53,7 @@ const PatientsContent = props => {
 
   const data_de_criação = moment(patients.created_at).format('DD/MM/YYYY');
 
-  const { openEdit } = useContext(PatientEdit);
+  const { openEdit } = useContext(Patient);
 
   return (
     <Card className={clsx(classes.root)}>

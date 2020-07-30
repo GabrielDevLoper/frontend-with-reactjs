@@ -107,7 +107,7 @@ const PatientsContent = props => {
         data_entrega,
         exams: selectedExams
       });
-      Swal.fire('Good job!', 'You clicked the button!', 'success');
+      Swal.fire('Sucesso', `${response.data}`, 'success');
     } catch (error) {
       console.log(error);
     }

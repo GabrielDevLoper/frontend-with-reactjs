@@ -1,6 +1,6 @@
 import React, { createContext, useState } from 'react';
 
-const PatientEdit = createContext();
+const Patient = createContext();
 
 function PatientProvider({ children }) {
   const [openEdit, setOpenEdit] = useState(false);
@@ -10,10 +10,15 @@ function PatientProvider({ children }) {
   };
 
   return (
-    <PatientEdit.Provider value={{ openEdit, open, setOpenEdit }}>
+    <Patient.Provider
+      value={{
+        openEdit,
+        open,
+        setOpenEdit
+      }}>
       {children}
-    </PatientEdit.Provider>
+    </Patient.Provider>
   );
 }
 
-export { PatientEdit, PatientProvider };
+export { Patient, PatientProvider };

@@ -30,12 +30,14 @@ const Routes = () => {
         layout={MainLayout}
         path="/dashboard"
       />
+
       <RouteWithLayout
         component={UserListView}
         exact
         layout={MainLayout}
         path="/users"
         isPrivate
+        isPrivateRole
       />
       <RouteWithLayout
         component={ProductListView}

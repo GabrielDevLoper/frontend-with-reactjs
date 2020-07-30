@@ -6,9 +6,16 @@ import { Context } from '../../context/AuthContext';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const RouteWithLayout = props => {
-  const { isPrivate, layout: Layout, component: Component, ...rest } = props;
+  const {
+    isPrivate,
+    isPrivateRole,
+    layout: Layout,
+    component: Component,
+    ...rest
+  } = props;
 
   const { authenticated, loading } = useContext(Context);
+  const role = localStorage.getItem('role');
 
   if (loading) {
     return <CircularProgress />;
@@ -16,6 +23,10 @@ const RouteWithLayout = props => {
 
   if (isPrivate && !authenticated) {
     return <Redirect to="/sign-in" />;
+  }
+
+  if (isPrivateRole && role !== 'ADMIN') {
+    return <Redirect to="/not-found" />;
   }
 
   return (

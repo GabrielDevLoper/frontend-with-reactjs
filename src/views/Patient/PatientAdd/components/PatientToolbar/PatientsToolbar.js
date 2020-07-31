@@ -42,7 +42,6 @@ const PatientsToolbar = props => {
     <div {...rest} className={clsx(classes.root, className)}>
       <div className={classes.row}>
         <span className={classes.spacer} />
-        <h1>Cadastro de pacientes</h1>
       </div>
       <div className={classes.row}>
         <IconButton onClick={handleBack}>

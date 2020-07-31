@@ -8,6 +8,7 @@ import Input from '../../../../../components/Input';
 import api from '../../../../../services/api';
 import InputMask from 'react-input-mask';
 import Swal from 'sweetalert2';
+import axios from 'axios';
 
 import { Form } from '@unform/web';
 import {
@@ -18,8 +19,11 @@ import {
   TextField,
   Box,
   Button,
-  Divider
+  Divider,
+  InputLabel,
+  Select
 } from '@material-ui/core';
+import { Transictions } from 'components/Transictions';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -30,6 +34,12 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-around',
+    minWidth: 1050
+  },
+  inner2: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     minWidth: 1050
   },
   nameContainer: {
@@ -45,8 +55,8 @@ const useStyles = makeStyles(theme => ({
 
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(2),
-    textAlign: 'center'
+    marginTop: theme.spacing(2)
+    // textAlign: 'center'
   },
   inputGroup: {
     display: 'flex',
@@ -61,17 +71,36 @@ const useStyles = makeStyles(theme => ({
   },
 
   submitSave: {
-    marginTop: 30
+    marginTop: 15
   },
   divider: {
-    margin: 50
+    margin: 20
   },
   exams: {
     display: 'flex',
     justifyContent: 'space-between'
   },
   title: {
-    marginBottom: 30
+    margin: '20px 0',
+    display: 'flex',
+    justifyContent: 'center',
+    color: '#8493a1'
+  },
+
+  input: {
+    width: 320,
+    height: 30,
+    padding: 5,
+    borderRadius: '8px',
+    border: 'none',
+    backgroundColor: '#d1d9e0',
+    fontSize: '16px',
+    margin: '8px 0',
+    '&:focus': {
+      backgroundColor: '#d1d9e0',
+
+      border: 'none'
+    }
   }
 }));
 
@@ -79,8 +108,13 @@ const PatientsContent = props => {
   const { className, ...rest } = props;
   const formRef = useRef(null);
 
+  const [ufs, setUfs] = useState([]);
+  const [city, setCity] = useState([]);
+
   const [exams, setExams] = useState([]);
   const [selectedExams, setSelectedExams] = useState([]);
+  const [selectedUf, setSelectedUf] = useState('0');
+  const [selectedCity, setSelectedCity] = useState('0');
 
   const classes = useStyles();
 
@@ -92,13 +126,20 @@ const PatientsContent = props => {
       convenio,
       medico_solicitante,
       fone,
-      data_entrega
+      data_entrega,
+
+      neighborhood,
+      street,
+      number,
+      zipcode
     } = data;
-    //pegando id disponivel no localstorage do browser
+
+    console.log(data);
+    // pegando id disponivel no localstorage do browser
     const user_id = localStorage.getItem('id');
 
     try {
-      const response = await api.post(`/users/${user_id}/pacients`, {
+      const { data } = await api.post(`/users/${user_id}/pacients`, {
         name,
         pront_req_interno,
         procedencia,
@@ -108,7 +149,23 @@ const PatientsContent = props => {
         data_entrega,
         exams: selectedExams
       });
-      Swal.fire('Sucesso', 'Cadastrado com sucesso', 'success');
+
+      const pacient_id = data.id;
+
+      if (data.messageAlert) {
+        Swal.fire('Erro', 'Paciente já se encontra cadastrado', 'error');
+      } else {
+        await api.post(`/pacients/${pacient_id}/address`, {
+          uf: selectedUf,
+          city: selectedCity,
+          neighborhood,
+          street,
+          number,
+          zipcode
+        });
+
+        Swal.fire('Sucesso', 'Cadastrado com sucesso', 'success');
+      }
     } catch (error) {
       console.log(error);
     }
@@ -121,6 +178,30 @@ const PatientsContent = props => {
     }
     loadExams();
   }, []);
+
+  useEffect(() => {
+    async function loadUfs() {
+      const { data } = await axios.get(
+        'https://servicodados.ibge.gov.br/api/v1/localidades/estados'
+      );
+      const ufInitials = data.map(uf => uf.sigla);
+      setUfs(ufInitials);
+    }
+    loadUfs();
+  }, []);
+
+  useEffect(() => {
+    async function loadCities() {
+      const { data } = await axios.get(
+        `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUf}/municipios`
+      );
+
+      const city = data.map(cities => cities.nome);
+
+      setCity(city);
+    }
+    loadCities();
+  }, [selectedUf]);
 
   function handleSelectItem(id) {
     const alreadySelected = selectedExams.findIndex(item => item === id);
@@ -135,57 +216,98 @@ const PatientsContent = props => {
 
   console.log(selectedExams);
   return (
-    <Card {...rest} className={clsx(classes.root, className)}>
-      <CardContent className={classes.content}>
-        <PerfectScrollbar>
+    <Transictions>
+      <Card {...rest} className={clsx(classes.root, className)}>
+        <CardContent className={classes.content}>
+          <div className={classes.title}>
+            <h2>DADOS DO PACIENTE</h2>
+          </div>
           <Form
             className={classes.form}
             ref={formRef}
             onSubmit={handleAddClient}>
             <Box className={classes.inner}>
               <Box className={classes.inputGroup}>
-                <Input id="standard-basic" label="Nome" name="name" required />
-                <Input
-                  id="standard-basic"
-                  required
-                  label="Pront./Req./Interno"
-                  name="pront_req_interno"
-                />
-                <Input
-                  id="standard-basic"
-                  name="convenio"
-                  required
-                  label="Convênio"
-                />
+                <label>Nome</label>
+                <Input name="name" className={classes.input} />
+                <label>Pront./Req./Interno</label>
+                <Input name="pront_req_interno" className={classes.input} />
+                <label>Convênio</label>
+                <Input name="convenio" className={classes.input} />
               </Box>
               <Box className={classes.inputGroup}>
-                <Input
-                  id="standard-basic"
-                  name="procedencia"
-                  required
-                  label="Procedência"
-                />
-                <Input
-                  id="standard-basic"
-                  name="medico_solicitante"
-                  label="Médico Solicitante"
-                />
-                <Input id="standard-basic" name="fone" label="Fone" />
+                <label>Procedência</label>
+                <Input name="procedencia" className={classes.input} />
+                <label>Médico Solicitante</label>
+                <Input name="medico_solicitante" className={classes.input} />
+                <label>Fone</label>
+                <Input name="fone" label="Fone" className={classes.input} />
               </Box>
-
               <Box className={classes.inputGroup}>
-                <Input
-                  id="standard-basic"
-                  name="data_entrega"
-                  label="Data de Entrega"
-                />
+                <label>Data de Entrega</label>
+                <Input name="data_entrega" className={classes.input} />
               </Box>
             </Box>
+            <div className={classes.title}>
+              <h2>ENDEREÇO</h2>
+            </div>
+            <Box className={classes.inner}>
+              <Box className={classes.inputGroup}>
+                <label htmlFor="uf">Estado (UF)</label>
+                <select
+                  name="uf"
+                  id="uf"
+                  value={selectedUf}
+                  onChange={e => setSelectedUf(e.target.value)}
+                  className={classes.input}>
+                  <option value="0">Selecione uma UF</option>
+                  {ufs.map(uf => (
+                    <option key={uf} value={uf}>
+                      {uf}
+                    </option>
+                  ))}
+                </select>
+                <label htmlFor="city">Cidade</label>
+                <select
+                  name="city"
+                  id="city"
+                  value={selectedCity}
+                  onChange={e => setSelectedCity(e.target.value)}
+                  className={classes.input}>
+                  <option value="0">Selecione uma Cidade</option>
+                  {city.map(cities => (
+                    <option key={cities} value={cities}>
+                      {cities}
+                    </option>
+                  ))}
+                </select>
+
+                {/* <label>Estado</label>
+              <Input name="uf" className={classes.input} />
+              <label>Cidade</label>
+              <Input name="city" className={classes.input} /> */}
+              </Box>
+              <Box className={classes.inputGroup}>
+                <label>Bairro</label>
+                <Input name="neighborhood" className={classes.input} />
+                <label>Rua</label>
+                <Input name="street" className={classes.input} />
+              </Box>
+              <Box className={classes.inputGroup}>
+                <label>Número</label>
+                <Input name="number" className={classes.input} />
+                <label>CEP</label>
+                <Input name="zipcode" className={classes.input} />
+              </Box>
+            </Box>
+
             <Divider className={classes.divider} />
-            <h2 className={classes.title}>SELECIONE OS EXAMES</h2>
+            <div className={classes.title}>
+              <h2>SELECIONE OS EXAMES</h2>
+            </div>
             <Box className={classes.exams}>
               <ul>
-                <h3>BIOQUIMICA</h3>
+                <h3 className={classes.title}>BIOQUIMICA</h3>
                 {exams.map(exam => (
                   <>
                     <li key={exam.id} className={classes.exams}>
@@ -213,7 +335,7 @@ const PatientsContent = props => {
               </ul>
 
               <ul>
-                <h3>IMONOLOGIA</h3>
+                <h3 className={classes.title}>IMONOLOGIA</h3>
 
                 {exams.map(exam => (
                   <>
@@ -242,7 +364,7 @@ const PatientsContent = props => {
               </ul>
 
               <ul>
-                <h3>HEMATOLOGIA</h3>
+                <h3 className={classes.title}>HEMATOLOGIA</h3>
                 {exams.map(exam => (
                   <>
                     <li key={exam.id} className={classes.exams}>
@@ -270,7 +392,7 @@ const PatientsContent = props => {
               </ul>
 
               <ul>
-                <h3>PARASITOLOGIA</h3>
+                <h3 className={classes.title}>PARASITOLOGIA</h3>
                 {exams.map(exam => (
                   <>
                     <li key={exam.id} className={classes.exams}>
@@ -307,10 +429,10 @@ const PatientsContent = props => {
               </Button>
             </Box>
           </Form>
-        </PerfectScrollbar>
-      </CardContent>
-      <CardActions className={classes.actions}></CardActions>
-    </Card>
+        </CardContent>
+        <CardActions className={classes.actions}></CardActions>
+      </Card>
+    </Transictions>
   );
 };
 

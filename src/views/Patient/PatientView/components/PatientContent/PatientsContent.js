@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -31,16 +31,18 @@ const useStyles = makeStyles(theme => ({
   },
   actions: {
     justifyContent: 'flex-end'
+  },
+  title: {
+    textAlign: 'center'
   }
 }));
 
 const PatientsContent = props => {
   const classes = useStyles();
-  const { patients } = props;
+  const { patients, address } = props;
+  const { openEdit } = useContext(Patient);
 
   const data_de_criação = moment(patients.created_at).format('DD/MM/YYYY');
-
-  const { openEdit } = useContext(Patient);
 
   return (
     <Card className={clsx(classes.root)}>
@@ -52,16 +54,67 @@ const PatientsContent = props => {
             <Transictions>
               <div className={classes.inner}>
                 <div>
-                  <h3>Nome: {patients.name}</h3>
-                  <h3>Pront./Reque./Interno: {patients.pront_req_interno}</h3>
-                  <h3>Convênio: {patients.convenio}</h3>
-                  <h3>Procedência:{patients.procedencia}</h3>
+                  <div className={classes.nameContainer}>
+                    <h4>Nome: </h4>
+                    <span>{patients.name}</span>
+                  </div>
+                  <div className={classes.nameContainer}>
+                    <h4>Pront./Reque./Interno: </h4>
+                    <span>{patients.pront_req_interno}</span>
+                  </div>
+                  <div className={classes.nameContainer}>
+                    <h4>Convênio: </h4>
+                    <span>{patients.convenio}</span>
+                  </div>
+                  <div className={classes.nameContainer}>
+                    <h4>Procedência: </h4>
+                    <span>{patients.procedencia}</span>
+                  </div>
                 </div>
                 <div>
-                  <h3>Médico Solicitante: {patients.medico_solicitante}</h3>
-                  <h3>Fone: {patients.fone}</h3>
-                  <h3>Data de Entrega: {patients.data_entrega}</h3>
-                  <h3>Data de Criação: {data_de_criação}</h3>
+                  <div className={classes.nameContainer}>
+                    <h4>Médico Solicitante: </h4>
+                    <span>{patients.medico_solicitante}</span>
+                  </div>
+                  <div className={classes.nameContainer}>
+                    <h4>Fone: </h4>
+                    <span>{patients.fone}</span>
+                  </div>
+                  <div className={classes.nameContainer}>
+                    <h4>Data de Entrega: </h4>
+                    <span>{patients.data_entrega}</span>
+                  </div>
+                  <div className={classes.nameContainer}>
+                    <h4>Data de Criação: </h4>
+                    <span>{data_de_criação}</span>
+                  </div>
+                </div>
+              </div>
+              <div className={classes.title}>
+                <h1>Endereço</h1>
+              </div>
+              <div className={classes.inner}>
+                <div>
+                  <div className={classes.nameContainer}>
+                    <h4>UF: </h4>
+                    <span>{address.uf}</span>
+                  </div>
+                  <div className={classes.nameContainer}>
+                    <h4>Cidade: </h4>
+                    <span>{address.city}</span>
+                  </div>
+                  <div className={classes.nameContainer}>
+                    <h4>Bairro: </h4>
+                    <span>{address.neighborhood}</span>
+                  </div>
+                  <div className={classes.nameContainer}>
+                    <h4>CEP: </h4>
+                    <span>{address.zipcode}</span>
+                  </div>
+                  <div className={classes.nameContainer}>
+                    <h4>Número: </h4>
+                    <span>{address.number}</span>
+                  </div>
                 </div>
               </div>
             </Transictions>

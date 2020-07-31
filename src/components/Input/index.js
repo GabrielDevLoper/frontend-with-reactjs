@@ -14,7 +14,5 @@ export default function Input({ name, ...rest }) {
     });
   }, [fieldName, registerField]);
 
-  return (
-    <TextField inputRef={inputRef} defaultValue={defaultValue} {...rest} />
-  );
+  return <input ref={inputRef} defaultValue={defaultValue} {...rest} />;
 }

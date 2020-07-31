@@ -6,7 +6,6 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import { makeStyles, withStyles } from '@material-ui/styles';
 import Input from '../../../../../components/Input';
 import api from '../../../../../services/api';
-import InputMask from 'react-input-mask';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 
@@ -203,7 +202,7 @@ const PatientsContent = props => {
     loadCities();
   }, [selectedUf]);
 
-  function handleSelectItem(id) {
+  function handleSelectExam(id) {
     const alreadySelected = selectedExams.findIndex(item => item === id);
 
     if (alreadySelected >= 0) {
@@ -320,7 +319,7 @@ const PatientsContent = props => {
                                 inputProps={{
                                   'aria-label': 'secondary checkbox'
                                 }}
-                                onClick={() => handleSelectItem(exam.id)}
+                                onClick={() => handleSelectExam(exam.id)}
                               />
                               <span>
                                 {exam.code} {exam.description}
@@ -349,7 +348,7 @@ const PatientsContent = props => {
                                 inputProps={{
                                   'aria-label': 'secondary checkbox'
                                 }}
-                                onClick={() => handleSelectItem(exam.id)}
+                                onClick={() => handleSelectExam(exam.id)}
                               />
                               <span>
                                 {exam.code} {exam.description}
@@ -377,7 +376,7 @@ const PatientsContent = props => {
                                 inputProps={{
                                   'aria-label': 'secondary checkbox'
                                 }}
-                                onClick={() => handleSelectItem(exam.id)}
+                                onClick={() => handleSelectExam(exam.id)}
                               />
                               <span>
                                 {exam.code} {exam.description}
@@ -405,7 +404,7 @@ const PatientsContent = props => {
                                 inputProps={{
                                   'aria-label': 'secondary checkbox'
                                 }}
-                                onClick={() => handleSelectItem(exam.id)}
+                                onClick={() => handleSelectExam(exam.id)}
                               />
                               <span>
                                 {exam.code} {exam.description}

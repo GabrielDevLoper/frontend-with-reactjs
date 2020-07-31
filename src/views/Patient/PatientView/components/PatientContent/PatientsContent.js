@@ -54,7 +54,12 @@ const PatientsContent = props => {
       <CardContent className={classes.content}>
         <PerfectScrollbar>
           {openEdit ? (
-            <PatientsEdit patient={patients} className={classes.inner} />
+            <PatientsEdit
+              patient={patients}
+              address={address}
+              exame={exams}
+              className={classes.inner}
+            />
           ) : (
             <Transictions>
               <div className={classes.inner}>

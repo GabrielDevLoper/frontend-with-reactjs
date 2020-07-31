@@ -27,6 +27,7 @@ const PatientView = props => {
     async function loadPacient() {
       const response = await api.get(`/pacients/${patient_id}`);
       setPatients(response.data);
+      //setando os exames do paciente x
       setExams(response.data.exams);
     }
     loadPacient();

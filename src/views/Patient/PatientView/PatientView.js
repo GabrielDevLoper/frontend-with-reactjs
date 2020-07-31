@@ -21,11 +21,13 @@ const PatientView = props => {
 
   const [patient, setPatients] = useState([]);
   const [address, setAddress] = useState([]);
+  const [exams, setExams] = useState([]);
 
   useEffect(() => {
     async function loadPacient() {
       const response = await api.get(`/pacients/${patient_id}`);
       setPatients(response.data);
+      setExams(response.data.exams);
     }
     loadPacient();
   }, []);
@@ -42,9 +44,9 @@ const PatientView = props => {
   return (
     <div className={classes.root}>
       <Transictions>
-        <PatientsToolbar />
+        <PatientsToolbar patient_id={patient_id} />
         <div className={classes.content}>
-          <PatientsContent patients={patient} address={address} />
+          <PatientsContent patients={patient} address={address} exams={exams} />
         </div>
       </Transictions>
     </div>

@@ -6,7 +6,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import { Patient } from '../../../../../context/hooks/Pacient';
 
 import { makeStyles } from '@material-ui/styles';
-import { Card, CardContent } from '@material-ui/core';
+import { Card, CardContent, Checkbox, Box } from '@material-ui/core';
 
 import PatientsEdit from '../PatientEdit';
 import { Transictions } from 'components/Transictions';
@@ -22,9 +22,9 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'space-between'
   },
+
   nameContainer: {
-    display: 'flex',
-    alignItems: 'center'
+    display: 'flex'
   },
   avatar: {
     marginRight: theme.spacing(2)
@@ -34,16 +34,21 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     textAlign: 'center'
+  },
+  exams: {
+    display: 'flex',
+    justifyContent: 'space-between'
   }
 }));
 
 const PatientsContent = props => {
   const classes = useStyles();
-  const { patients, address } = props;
+  const { patients, address, exams } = props;
   const { openEdit } = useContext(Patient);
 
   const data_de_criação = moment(patients.created_at).format('DD/MM/YYYY');
 
+  console.log(exams);
   return (
     <Card className={clsx(classes.root)}>
       <CardContent className={classes.content}>
@@ -90,11 +95,12 @@ const PatientsContent = props => {
                   </div>
                 </div>
               </div>
-              <div className={classes.title}>
-                <h1>Endereço</h1>
-              </div>
+              {/* ENDEREÇO E EXAMES */}
               <div className={classes.inner}>
                 <div>
+                  <div>
+                    <h1>Endereço</h1>
+                  </div>
                   <div className={classes.nameContainer}>
                     <h4>UF: </h4>
                     <span>{address.uf}</span>
@@ -108,6 +114,10 @@ const PatientsContent = props => {
                     <span>{address.neighborhood}</span>
                   </div>
                   <div className={classes.nameContainer}>
+                    <h4>Rua: </h4>
+                    <span>{address.street}</span>
+                  </div>
+                  <div className={classes.nameContainer}>
                     <h4>CEP: </h4>
                     <span>{address.zipcode}</span>
                   </div>
@@ -115,6 +125,21 @@ const PatientsContent = props => {
                     <h4>Número: </h4>
                     <span>{address.number}</span>
                   </div>
+                </div>
+              </div>
+
+              <div className={classes.inner}>
+                <div>
+                  <div>
+                    <h1>Exames</h1>
+                  </div>
+                  {exams.map(exam => (
+                    <div>
+                      <span>
+                        Código: {exam.code} Descrição: {exam.description}
+                      </span>
+                    </div>
+                  ))}
                 </div>
               </div>
             </Transictions>

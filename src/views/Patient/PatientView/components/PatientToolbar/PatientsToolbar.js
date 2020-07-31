@@ -5,7 +5,9 @@ import { makeStyles } from '@material-ui/styles';
 import { Button, IconButton } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { Patient } from '../../../../../context/hooks/Pacient';
+import api from '../../../../../services/api';
 import history from '../../../../../history';
+import Swal from 'sweetalert2';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -30,7 +32,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const PatientsToolbar = props => {
-  const { className, ...rest } = props;
+  const { className, patient_id, ...rest } = props;
   const { open, openEdit, setOpenEdit } = useContext(Patient);
 
   const classes = useStyles();
@@ -40,12 +42,19 @@ const PatientsToolbar = props => {
     history.goBack();
   };
 
+  const handlePDF = async () => {
+    await api.get(`/show-user/${patient_id}`);
+    Swal.fire('Sucesso', 'PDF gerado na area de trabalho', 'success');
+  };
+
   return (
     <div {...rest} className={clsx(classes.root, className)}>
       <div className={classes.row}>
         <span className={classes.spacer} />
         <Button className={classes.importButton}>Import</Button>
-        <Button className={classes.exportButton}>Export</Button>
+        <Button className={classes.exportButton} onClick={handlePDF}>
+          PDF
+        </Button>
         <Button color="primary" variant="contained" onClick={open}>
           {openEdit ? 'Visualizar' : 'Editar Paciente'}
         </Button>
@@ -57,10 +66,6 @@ const PatientsToolbar = props => {
       </div>
     </div>
   );
-};
-
-PatientsToolbar.propTypes = {
-  className: PropTypes.string
 };
 
 export default PatientsToolbar;

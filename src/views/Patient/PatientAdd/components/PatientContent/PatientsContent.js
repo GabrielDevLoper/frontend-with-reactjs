@@ -8,8 +8,9 @@ import Input from '../../../../../components/Input';
 import api from '../../../../../services/api';
 import Swal from 'sweetalert2';
 import axios from 'axios';
-
+import history from '../../../../../history';
 import { Form } from '@unform/web';
+
 import {
   Card,
   CardActions,
@@ -133,7 +134,6 @@ const PatientsContent = props => {
       zipcode
     } = data;
 
-    console.log(data);
     // pegando id disponivel no localstorage do browser
     const user_id = localStorage.getItem('id');
 
@@ -164,6 +164,8 @@ const PatientsContent = props => {
         });
 
         Swal.fire('Sucesso', 'Cadastrado com sucesso', 'success');
+        history.push("/patients");
+       
       }
     } catch (error) {
       console.log(error);

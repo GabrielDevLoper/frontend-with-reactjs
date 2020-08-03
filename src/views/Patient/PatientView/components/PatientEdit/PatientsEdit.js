@@ -114,7 +114,6 @@ const PatientsEdit = props => {
   const [selectedExams, setSelectedExams] = useState([]);
   const [selectedUf, setSelectedUf] = useState('0');
   const [selectedCity, setSelectedCity] = useState('0');
-  const [checked, setChecked] = useState(false);
 
   const classes = useStyles();
 
@@ -216,7 +215,16 @@ const PatientsEdit = props => {
     }
   }
 
-  console.log(selectedExams);
+  function handleSelectExamAutomatic(id) {
+    const alreadySelected = selectedExams.findIndex(item => item === id);
+
+    if (alreadySelected >= 0) {
+     return true;
+    } else {
+      return false;
+    }
+  }
+
   return (
     <Transictions>
       <Card {...rest} className={clsx(classes.root, className)}>
@@ -349,7 +357,7 @@ const PatientsEdit = props => {
               <h2>SELECIONE OS EXAMES</h2>
             </div>
             <Box className={classes.exams}>
-              {console.log(checked)}
+              
               <ul>
                 <h3 className={classes.title}>BIOQUIMICA</h3>
                 {exams.map(exam => (
@@ -364,12 +372,8 @@ const PatientsEdit = props => {
                                 inputProps={{
                                   'aria-label': 'secondary checkbox'
                                 }}
-                                onChange={
-                                  exame.map(exam => exam.id) === exam.id
-                                    ? e => setChecked(!checked)
-                                    : null
-                                }
-                                onClick={() => handleSelectExam(exam.id)}
+                                defaultChecked={handleSelectExamAutomatic(exam.id)}
+                                onClick={ () => handleSelectExam(exam.id) }
                               />
                               <span>
                                 {exam.code} {exam.description}
@@ -397,6 +401,7 @@ const PatientsEdit = props => {
                                 inputProps={{
                                   'aria-label': 'secondary checkbox'
                                 }}
+                                defaultChecked={handleSelectExamAutomatic(exam.id)}
                                 onClick={() => handleSelectExam(exam.id)}
                               />
                               <span>
@@ -424,6 +429,7 @@ const PatientsEdit = props => {
                                 inputProps={{
                                   'aria-label': 'secondary checkbox'
                                 }}
+                                defaultChecked={handleSelectExamAutomatic(exam.id)}                               
                                 onClick={() => handleSelectExam(exam.id)}
                               />
                               <span>
@@ -451,6 +457,7 @@ const PatientsEdit = props => {
                                 inputProps={{
                                   'aria-label': 'secondary checkbox'
                                 }}
+                                defaultChecked={handleSelectExamAutomatic(exam.id)}                             
                                 onClick={() => handleSelectExam(exam.id)}
                               />
                               <span>

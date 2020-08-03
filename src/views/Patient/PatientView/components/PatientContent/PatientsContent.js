@@ -48,7 +48,6 @@ const PatientsContent = props => {
 
   const data_de_criação = moment(patients.created_at).format('DD/MM/YYYY');
 
-  console.log(exams);
   return (
     <Card className={clsx(classes.root)}>
       <CardContent className={classes.content}>

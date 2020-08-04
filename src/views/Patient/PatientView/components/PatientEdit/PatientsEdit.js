@@ -372,7 +372,7 @@ const PatientsEdit = props => {
                                 inputProps={{
                                   'aria-label': 'secondary checkbox'
                                 }}
-                                defaultChecked={handleSelectExamAutomatic(exam.id)}
+                                defaultChecked={selectedExams.includes(exam.id) ? true : false}
                                 onClick={ () => handleSelectExam(exam.id) }
                               />
                               <span>
@@ -401,7 +401,7 @@ const PatientsEdit = props => {
                                 inputProps={{
                                   'aria-label': 'secondary checkbox'
                                 }}
-                                defaultChecked={handleSelectExamAutomatic(exam.id)}
+                                defaultChecked={selectedExams.includes(exam.id) ? true : false}
                                 onClick={() => handleSelectExam(exam.id)}
                               />
                               <span>
@@ -429,7 +429,7 @@ const PatientsEdit = props => {
                                 inputProps={{
                                   'aria-label': 'secondary checkbox'
                                 }}
-                                defaultChecked={handleSelectExamAutomatic(exam.id)}                               
+                                defaultChecked={selectedExams.includes(exam.id) ? true : false}                               
                                 onClick={() => handleSelectExam(exam.id)}
                               />
                               <span>
@@ -457,7 +457,7 @@ const PatientsEdit = props => {
                                 inputProps={{
                                   'aria-label': 'secondary checkbox'
                                 }}
-                                defaultChecked={handleSelectExamAutomatic(exam.id)}                             
+                                defaultChecked={selectedExams.includes(exam.id) ? true : false}                     
                                 onClick={() => handleSelectExam(exam.id)}
                               />
                               <span>

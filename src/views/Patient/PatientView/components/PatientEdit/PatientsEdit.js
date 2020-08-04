@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useContext } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -8,6 +8,8 @@ import Input from '../../../../../components/Input';
 import api from '../../../../../services/api';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import history from '../../../../../history';
+import { Patient } from '../../../../../context/hooks/Pacient';
 
 import { Form } from '@unform/web';
 import {
@@ -106,16 +108,20 @@ const useStyles = makeStyles(theme => ({
 const PatientsEdit = props => {
   const { patient, address, exame, className, ...rest } = props;
   const formRef = useRef(null);
+  const { setOpenEdit } = useContext(Patient);
+
 
   const [ufs, setUfs] = useState([]);
   const [city, setCity] = useState([]);
 
   const [exams, setExams] = useState([]);
   const [selectedExams, setSelectedExams] = useState([]);
-  const [selectedUf, setSelectedUf] = useState('0');
-  const [selectedCity, setSelectedCity] = useState('0');
+  const [selectedUf, setSelectedUf] = useState(address.uf);
+  const [selectedCity, setSelectedCity] = useState(address.city);
 
   const classes = useStyles();
+
+
 
   async function handleAddClient(data, { reset }) {
     const {
@@ -135,9 +141,8 @@ const PatientsEdit = props => {
 
     // pegando id disponivel no localstorage do browser
     const user_id = localStorage.getItem('id');
-
     try {
-      const { data } = await api.post(`/users/${user_id}/pacients`, {
+      const { data } = await api.put(`/users/${user_id}/pacients/${patient.id}`, {
         name,
         pront_req_interno,
         procedencia,
@@ -148,12 +153,10 @@ const PatientsEdit = props => {
         exams: selectedExams
       });
 
-      const pacient_id = data.id;
-
       if (data.messageAlert) {
         Swal.fire('Erro', 'Paciente já se encontra cadastrado', 'error');
       } else {
-        await api.post(`/pacients/${pacient_id}/address`, {
+        await api.put(`/address/${address.id}`, {
           uf: selectedUf,
           city: selectedCity,
           neighborhood,
@@ -162,12 +165,16 @@ const PatientsEdit = props => {
           zipcode
         });
 
-        Swal.fire('Sucesso', 'Cadastrado com sucesso', 'success');
+        //desativando botão do editar paciente e voltando para a tela de visualizar
+        setOpenEdit(false);
+        history.push("/patients");
+        Swal.fire('Sucesso', 'Alterado com sucesso', 'success');
       }
     } catch (error) {
       console.log(error);
     }
   }
+
   useEffect(() => {
     setSelectedExams(exame.map(exam => exam.id));
   }, []);

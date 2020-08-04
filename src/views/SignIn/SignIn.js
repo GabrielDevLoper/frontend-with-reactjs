@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
   },
   quote: {
     backgroundColor: theme.palette.neutral,
-    height: '100%',
+    height: '100vh',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

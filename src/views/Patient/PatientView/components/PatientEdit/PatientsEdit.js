@@ -37,12 +37,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-around',
     minWidth: 1050
   },
-  inner2: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    minWidth: 1050
-  },
+
   nameContainer: {
     display: 'flex',
     alignItems: 'center'
@@ -97,11 +92,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#d1d9e0',
     fontSize: '16px',
     margin: '8px 0',
-    '&:focus': {
-      backgroundColor: '#d1d9e0',
-
-      border: 'none'
-    }
+    outline: 0
   }
 }));
 
@@ -109,7 +100,6 @@ const PatientsEdit = props => {
   const { patient, address, exame, className, ...rest } = props;
   const formRef = useRef(null);
   const { setOpenEdit } = useContext(Patient);
-
 
   const [ufs, setUfs] = useState([]);
   const [city, setCity] = useState([]);
@@ -121,9 +111,7 @@ const PatientsEdit = props => {
 
   const classes = useStyles();
 
-
-
-  async function handleAddClient(data, { reset }) {
+  async function handleEditPatient(data, { reset }) {
     const {
       name,
       pront_req_interno,
@@ -142,16 +130,19 @@ const PatientsEdit = props => {
     // pegando id disponivel no localstorage do browser
     const user_id = localStorage.getItem('id');
     try {
-      const { data } = await api.put(`/users/${user_id}/pacients/${patient.id}`, {
-        name,
-        pront_req_interno,
-        procedencia,
-        convenio,
-        medico_solicitante,
-        fone,
-        data_entrega,
-        exams: selectedExams
-      });
+      const { data } = await api.put(
+        `/users/${user_id}/pacients/${patient.id}`,
+        {
+          name,
+          pront_req_interno,
+          procedencia,
+          convenio,
+          medico_solicitante,
+          fone,
+          data_entrega,
+          exams: selectedExams
+        }
+      );
 
       if (data.messageAlert) {
         Swal.fire('Erro', 'Paciente já se encontra cadastrado', 'error');
@@ -167,7 +158,7 @@ const PatientsEdit = props => {
 
         //desativando botão do editar paciente e voltando para a tela de visualizar
         setOpenEdit(false);
-        history.push("/patients");
+        history.push('/patients');
         Swal.fire('Sucesso', 'Alterado com sucesso', 'success');
       }
     } catch (error) {
@@ -222,275 +213,282 @@ const PatientsEdit = props => {
     }
   }
 
-  function handleSelectExamAutomatic(id) {
-    const alreadySelected = selectedExams.findIndex(item => item === id);
-
-    if (alreadySelected >= 0) {
-     return true;
-    } else {
-      return false;
-    }
-  }
-
   return (
     <Transictions>
       <Card {...rest} className={clsx(classes.root, className)}>
-        <CardContent className={classes.content}>
-          <div className={classes.title}>
-            <h2>DADOS DO PACIENTE</h2>
-          </div>
-          <Form
-            className={classes.form}
-            ref={formRef}
-            onSubmit={handleAddClient}>
-            <Box className={classes.inner}>
-              <Box className={classes.inputGroup}>
-                <label>Nome</label>
-                <Input
-                  name="name"
-                  defaultValue={patient.name}
-                  className={classes.input}
-                />
-                <label>Pront./Req./Interno</label>
-                <Input
-                  name="pront_req_interno"
-                  defaultValue={patient.pront_req_interno}
-                  className={classes.input}
-                />
-                <label>Convênio</label>
-                <Input
-                  name="convenio"
-                  defaultValue={patient.convenio}
-                  className={classes.input}
-                />
-              </Box>
-              <Box className={classes.inputGroup}>
-                <label>Procedência</label>
-                <Input
-                  name="procedencia"
-                  defaultValue={patient.procedencia}
-                  className={classes.input}
-                />
-                <label>Médico Solicitante</label>
-                <Input
-                  name="medico_solicitante"
-                  defaultValue={patient.medico_solicitante}
-                  className={classes.input}
-                />
-                <label>Fone</label>
-                <Input
-                  name="fone"
-                  defaultValue={patient.fone}
-                  className={classes.input}
-                />
-              </Box>
-              <Box className={classes.inputGroup}>
-                <label>Data de Entrega</label>
-
-                <Input
-                  name="data_entrega"
-                  defaultValue={patient.data_entrega}
-                  className={classes.input}
-                />
-              </Box>
-            </Box>
+        <PerfectScrollbar>
+          <CardContent className={classes.content}>
             <div className={classes.title}>
-              <h2>ENDEREÇO</h2>
+              <h2>DADOS DO PACIENTE</h2>
             </div>
-            <Box className={classes.inner}>
-              <Box className={classes.inputGroup}>
-                <label htmlFor="uf">Estado (UF)</label>
-                <select
-                  name="uf"
-                  id="uf"
-                  value={selectedUf}
-                  onChange={e => setSelectedUf(e.target.value)}
-                  className={classes.input}>
-                  <option value="0">Selecione uma UF</option>
-                  {ufs.map(uf => (
-                    <option key={uf} value={uf}>
-                      {uf}
-                    </option>
+            <Form
+              className={classes.form}
+              ref={formRef}
+              onSubmit={handleEditPatient}>
+              <Box className={classes.inner}>
+                <Box className={classes.inputGroup}>
+                  <label>Nome</label>
+                  <Input
+                    name="name"
+                    defaultValue={patient.name}
+                    className={classes.input}
+                  />
+                  <label>Pront./Req./Interno</label>
+                  <Input
+                    name="pront_req_interno"
+                    defaultValue={patient.pront_req_interno}
+                    className={classes.input}
+                  />
+                  <label>Convênio</label>
+                  <Input
+                    name="convenio"
+                    defaultValue={patient.convenio}
+                    className={classes.input}
+                  />
+                </Box>
+                <Box className={classes.inputGroup}>
+                  <label>Procedência</label>
+                  <Input
+                    name="procedencia"
+                    defaultValue={patient.procedencia}
+                    className={classes.input}
+                  />
+                  <label>Médico Solicitante</label>
+                  <Input
+                    name="medico_solicitante"
+                    defaultValue={patient.medico_solicitante}
+                    className={classes.input}
+                  />
+                  <label>Fone</label>
+                  <Input
+                    name="fone"
+                    defaultValue={patient.fone}
+                    className={classes.input}
+                  />
+                </Box>
+                <Box className={classes.inputGroup}>
+                  <label>Data de Entrega</label>
+
+                  <Input
+                    name="data_entrega"
+                    defaultValue={patient.data_entrega}
+                    className={classes.input}
+                  />
+                </Box>
+              </Box>
+              <div className={classes.title}>
+                <h2>ENDEREÇO</h2>
+              </div>
+              <Box className={classes.inner}>
+                <Box className={classes.inputGroup}>
+                  <label htmlFor="uf">Estado (UF)</label>
+                  <select
+                    name="uf"
+                    id="uf"
+                    value={selectedUf}
+                    onChange={e => setSelectedUf(e.target.value)}
+                    className={classes.input}>
+                    <option value="0">Selecione uma UF</option>
+                    {ufs.map(uf => (
+                      <option key={uf} value={uf}>
+                        {uf}
+                      </option>
+                    ))}
+                  </select>
+                  <label htmlFor="city">Cidade</label>
+                  <select
+                    name="city"
+                    id="city"
+                    value={selectedCity}
+                    onChange={e => setSelectedCity(e.target.value)}
+                    className={classes.input}>
+                    <option value="0">Selecione uma Cidade</option>
+                    {city.map(cities => (
+                      <option key={cities} value={cities}>
+                        {cities}
+                      </option>
+                    ))}
+                  </select>
+                </Box>
+                <Box className={classes.inputGroup}>
+                  <label>Bairro</label>
+                  <Input
+                    name="neighborhood"
+                    defaultValue={address.neighborhood}
+                    className={classes.input}
+                  />
+                  <label>Rua</label>
+
+                  <Input
+                    name="street"
+                    defaultValue={address.street}
+                    className={classes.input}
+                  />
+                </Box>
+                <Box className={classes.inputGroup}>
+                  <label>Número</label>
+                  <Input
+                    name="number"
+                    defaultValue={address.number}
+                    className={classes.input}
+                  />
+                  <label>CEP</label>
+                  <Input
+                    name="zipcode"
+                    defaultValue={address.zipcode}
+                    className={classes.input}
+                  />
+                </Box>
+              </Box>
+
+              <Divider className={classes.divider} />
+              <div className={classes.title}>
+                <h2>SELECIONE OS EXAMES</h2>
+              </div>
+              <Box className={classes.exams}>
+                <ul>
+                  <h3 className={classes.title}>BIOQUIMICA</h3>
+                  {exams.map(exam => (
+                    <>
+                      <li key={exam.id} className={classes.exams}>
+                        <Box>
+                          {exam.type_exam.title === 'BIOQUIMICA' ? (
+                            <>
+                              <Box>
+                                <Checkbox
+                                  color="primary"
+                                  inputProps={{
+                                    'aria-label': 'secondary checkbox'
+                                  }}
+                                  defaultChecked={
+                                    selectedExams.includes(exam.id)
+                                      ? true
+                                      : false
+                                  }
+                                  onClick={() => handleSelectExam(exam.id)}
+                                />
+                                <span>
+                                  {exam.code} {exam.description}
+                                </span>
+                              </Box>
+                            </>
+                          ) : null}
+                        </Box>
+                      </li>
+                    </>
                   ))}
-                </select>
-                <label htmlFor="city">Cidade</label>
-                <select
-                  name="city"
-                  id="city"
-                  value={selectedCity}
-                  onChange={e => setSelectedCity(e.target.value)}
-                  className={classes.input}>
-                  <option value="0">Selecione uma Cidade</option>
-                  {city.map(cities => (
-                    <option key={cities} value={cities}>
-                      {cities}
-                    </option>
+                </ul>
+                <ul>
+                  <h3 className={classes.title}>IMONOLOGIA</h3>
+
+                  {exams.map(exam => (
+                    <>
+                      <li key={exam.id} className={classes.exams}>
+                        <Box>
+                          {exam.type_exam.title === 'IMONOLOGIA' ? (
+                            <>
+                              <Box>
+                                <Checkbox
+                                  color="primary"
+                                  inputProps={{
+                                    'aria-label': 'secondary checkbox'
+                                  }}
+                                  defaultChecked={
+                                    selectedExams.includes(exam.id)
+                                      ? true
+                                      : false
+                                  }
+                                  onClick={() => handleSelectExam(exam.id)}
+                                />
+                                <span>
+                                  {exam.code} {exam.description}
+                                </span>
+                              </Box>
+                            </>
+                          ) : null}
+                        </Box>
+                      </li>
+                    </>
                   ))}
-                </select>
+                </ul>
+                <ul>
+                  <h3 className={classes.title}>HEMATOLOGIA</h3>
+                  {exams.map(exam => (
+                    <>
+                      <li key={exam.id} className={classes.exams}>
+                        <Box>
+                          {exam.type_exam.title === 'HEMATOLOGIA' ? (
+                            <>
+                              <Box>
+                                <Checkbox
+                                  color="primary"
+                                  inputProps={{
+                                    'aria-label': 'secondary checkbox'
+                                  }}
+                                  defaultChecked={
+                                    selectedExams.includes(exam.id)
+                                      ? true
+                                      : false
+                                  }
+                                  onClick={() => handleSelectExam(exam.id)}
+                                />
+                                <span>
+                                  {exam.code} {exam.description}
+                                </span>
+                              </Box>
+                            </>
+                          ) : null}
+                        </Box>
+                      </li>
+                    </>
+                  ))}
+                </ul>
+                <ul>
+                  <h3 className={classes.title}>PARASITOLOGIA</h3>
+                  {exams.map(exam => (
+                    <>
+                      <li key={exam.id} className={classes.exams}>
+                        <Box>
+                          {exam.type_exam.title === 'PARASITOLOGIA' ? (
+                            <>
+                              <Box>
+                                <Checkbox
+                                  color="primary"
+                                  inputProps={{
+                                    'aria-label': 'secondary checkbox'
+                                  }}
+                                  defaultChecked={
+                                    selectedExams.includes(exam.id)
+                                      ? true
+                                      : false
+                                  }
+                                  onClick={() => handleSelectExam(exam.id)}
+                                />
+                                <span>
+                                  {exam.code} {exam.description}
+                                </span>
+                              </Box>
+                            </>
+                          ) : null}
+                        </Box>
+                      </li>
+                    </>
+                  ))}
+                </ul>
               </Box>
-              <Box className={classes.inputGroup}>
-                <label>Bairro</label>
-                <Input
-                  name="neighborhood"
-                  defaultValue={address.neighborhood}
-                  className={classes.input}
-                />
-                <label>Rua</label>
-
-                <Input
-                  name="street"
-                  defaultValue={address.street}
-                  className={classes.input}
-                />
+              <Box component="div" className={classes.btnGroup}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  className={classes.submitSave}>
+                  Salvar
+                </Button>
               </Box>
-              <Box className={classes.inputGroup}>
-                <label>Número</label>
-                <Input
-                  name="number"
-                  defaultValue={address.number}
-                  className={classes.input}
-                />
-                <label>CEP</label>
-                <Input
-                  name="zipcode"
-                  defaultValue={address.zipcode}
-                  className={classes.input}
-                />
-              </Box>
-            </Box>
-
-            <Divider className={classes.divider} />
-            <div className={classes.title}>
-              <h2>SELECIONE OS EXAMES</h2>
-            </div>
-            <Box className={classes.exams}>
-              
-              <ul>
-                <h3 className={classes.title}>BIOQUIMICA</h3>
-                {exams.map(exam => (
-                  <>
-                    <li key={exam.id} className={classes.exams}>
-                      <Box>
-                        {exam.type_exam.title === 'BIOQUIMICA' ? (
-                          <>
-                            <Box>
-                              <Checkbox
-                                color="primary"
-                                inputProps={{
-                                  'aria-label': 'secondary checkbox'
-                                }}
-                                defaultChecked={selectedExams.includes(exam.id) ? true : false}
-                                onClick={ () => handleSelectExam(exam.id) }
-                              />
-                              <span>
-                                {exam.code} {exam.description}
-                              </span>
-                            </Box>
-                          </>
-                        ) : null}
-                      </Box>
-                    </li>
-                  </>
-                ))}
-              </ul>
-              <ul>
-                <h3 className={classes.title}>IMONOLOGIA</h3>
-
-                {exams.map(exam => (
-                  <>
-                    <li key={exam.id} className={classes.exams}>
-                      <Box>
-                        {exam.type_exam.title === 'IMONOLOGIA' ? (
-                          <>
-                            <Box>
-                              <Checkbox
-                                color="primary"
-                                inputProps={{
-                                  'aria-label': 'secondary checkbox'
-                                }}
-                                defaultChecked={selectedExams.includes(exam.id) ? true : false}
-                                onClick={() => handleSelectExam(exam.id)}
-                              />
-                              <span>
-                                {exam.code} {exam.description}
-                              </span>
-                            </Box>
-                          </>
-                        ) : null}
-                      </Box>
-                    </li>
-                  </>
-                ))}
-              </ul>
-              <ul>
-                <h3 className={classes.title}>HEMATOLOGIA</h3>
-                {exams.map(exam => (
-                  <>
-                    <li key={exam.id} className={classes.exams}>
-                      <Box>
-                        {exam.type_exam.title === 'HEMATOLOGIA' ? (
-                          <>
-                            <Box>
-                              <Checkbox
-                                color="primary"
-                                inputProps={{
-                                  'aria-label': 'secondary checkbox'
-                                }}
-                                defaultChecked={selectedExams.includes(exam.id) ? true : false}                               
-                                onClick={() => handleSelectExam(exam.id)}
-                              />
-                              <span>
-                                {exam.code} {exam.description}
-                              </span>
-                            </Box>
-                          </>
-                        ) : null}
-                      </Box>
-                    </li>
-                  </>
-                ))}
-              </ul>
-              <ul>
-                <h3 className={classes.title}>PARASITOLOGIA</h3>
-                {exams.map(exam => (
-                  <>
-                    <li key={exam.id} className={classes.exams}>
-                      <Box>
-                        {exam.type_exam.title === 'PARASITOLOGIA' ? (
-                          <>
-                            <Box>
-                              <Checkbox
-                                color="primary"
-                                inputProps={{
-                                  'aria-label': 'secondary checkbox'
-                                }}
-                                defaultChecked={selectedExams.includes(exam.id) ? true : false}                     
-                                onClick={() => handleSelectExam(exam.id)}
-                              />
-                              <span>
-                                {exam.code} {exam.description}
-                              </span>
-                            </Box>
-                          </>
-                        ) : null}
-                      </Box>
-                    </li>
-                  </>
-                ))}
-              </ul>
-            </Box>
-            <Box component="div" className={classes.btnGroup}>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                className={classes.submitSave}>
-                Salvar
-              </Button>
-            </Box>
-          </Form>
-        </CardContent>
-        <CardActions className={classes.actions}></CardActions>
+            </Form>
+          </CardContent>
+          <CardActions className={classes.actions}></CardActions>
+        </PerfectScrollbar>
       </Card>
     </Transictions>
   );

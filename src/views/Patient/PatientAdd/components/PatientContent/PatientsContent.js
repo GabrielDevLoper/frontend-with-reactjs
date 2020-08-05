@@ -36,12 +36,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-around',
     minWidth: 1050
   },
-  inner2: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    minWidth: 1050
-  },
+
   nameContainer: {
     display: 'flex',
     alignItems: 'center'
@@ -164,8 +159,7 @@ const PatientsContent = props => {
         });
 
         Swal.fire('Sucesso', 'Cadastrado com sucesso', 'success');
-        history.push("/patients");
-       
+        history.push('/patients');
       }
     } catch (error) {
       console.log(error);

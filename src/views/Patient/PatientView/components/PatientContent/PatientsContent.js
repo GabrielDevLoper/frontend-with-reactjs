@@ -24,7 +24,8 @@ const useStyles = makeStyles(theme => ({
   },
 
   nameContainer: {
-    display: 'flex'
+    display: 'flex',
+    font: '400 1.4rem Poppins'
   },
   avatar: {
     marginRight: theme.spacing(2)
@@ -53,12 +54,7 @@ const PatientsContent = props => {
       <CardContent className={classes.content}>
         <PerfectScrollbar>
           {openEdit ? (
-            <PatientsEdit
-              patient={patients}
-              address={address}
-              exame={exams}
-              className={classes.inner}
-            />
+            <PatientsEdit patient={patients} address={address} exame={exams} />
           ) : (
             <Transictions>
               <div className={classes.inner}>
@@ -138,7 +134,7 @@ const PatientsContent = props => {
                     <h1>Exames</h1>
                   </div>
                   {exams.map(exam => (
-                    <div>
+                    <div className={classes.nameContainer}>
                       <span>
                         Código: {exam.code} Descrição: {exam.description}
                       </span>

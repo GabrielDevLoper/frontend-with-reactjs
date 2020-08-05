@@ -19,7 +19,8 @@ import { Context } from '../../../../context/AuthContext';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    boxShadow: 'none'
+    boxShadow: 'none',
+    backgroundColor: '#2196f3'
   },
   flexGrow: {
     flexGrow: 1

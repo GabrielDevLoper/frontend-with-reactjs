@@ -18,7 +18,7 @@ const RouteWithLayout = props => {
   const role = localStorage.getItem('role');
 
   if (loading) {
-    return <CircularProgress />;
+    return <h1>Carregando...</h1>;
   }
 
   if (isPrivate && !authenticated) {

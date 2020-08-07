@@ -58,7 +58,8 @@ const useStyles = makeStyles(theme => ({
   content: {
     height: '100%',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    marginTop: 40
   },
   contentHeader: {
     display: 'flex',
@@ -110,7 +111,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SignIn = props => {
-  const { handleLogin, authenticated } = useContext(Context);
+  const { handleLogin } = useContext(Context);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');

@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import PeopleIcon from '@material-ui/icons/PeopleOutlined';
+
+import api from '../../../../services/api';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -43,28 +44,31 @@ const useStyles = makeStyles(theme => ({
 const TotalUsers = props => {
   const { className, ...rest } = props;
 
+  const [totalUsers, setTotalUsers] = useState([]);
+
+  useEffect(() => {
+    async function loadUsers() {
+      const { data } = await api.get('/users');
+      setTotalUsers(data);
+    }
+    loadUsers();
+  }, []);
+
   const classes = useStyles();
 
   return (
-    <Card
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
+    <Card {...rest} className={clsx(classes.root, className)}>
       <CardContent>
-        <Grid
-          container
-          justify="space-between"
-        >
+        <Grid container justify="space-between">
           <Grid item>
             <Typography
               className={classes.title}
               color="textSecondary"
               gutterBottom
-              variant="body2"
-            >
-              TOTAL USERS
+              variant="body2">
+              TOTAL DE USUÁRIOS
             </Typography>
-            <Typography variant="h3">1,600</Typography>
+            <Typography variant="h3">{totalUsers.length}</Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>
@@ -73,18 +77,8 @@ const TotalUsers = props => {
           </Grid>
         </Grid>
         <div className={classes.difference}>
-          <ArrowUpwardIcon className={classes.differenceIcon} />
-          <Typography
-            className={classes.differenceValue}
-            variant="body2"
-          >
-            16%
-          </Typography>
-          <Typography
-            className={classes.caption}
-            variant="caption"
-          >
-            Since last month
+          <Typography className={classes.caption} variant="caption">
+            Usuários cadastrado no sistema
           </Typography>
         </div>
       </CardContent>

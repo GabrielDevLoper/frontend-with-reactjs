@@ -31,7 +31,7 @@ const PatientView = props => {
       setExams(response.data.exams);
     }
     loadPacient();
-  }, []);
+  }, [patient_id]);
 
   useEffect(() => {
     async function loadAddressForPacient() {
@@ -40,7 +40,7 @@ const PatientView = props => {
     }
 
     loadAddressForPacient();
-  }, []);
+  }, [patient_id]);
 
   return (
     <div className={classes.root}>

@@ -1,9 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import moment from 'moment';
-import PerfectScrollbar from 'react-perfect-scrollbar';
-import { makeStyles, withStyles } from '@material-ui/styles';
+
+import { makeStyles } from '@material-ui/styles';
 import Input from '../../../../../components/Input';
 import api from '../../../../../services/api';
 import Swal from 'sweetalert2';
@@ -16,12 +15,9 @@ import {
   CardActions,
   CardContent,
   Checkbox,
-  TextField,
   Box,
   Button,
-  Divider,
-  InputLabel,
-  Select
+  Divider
 } from '@material-ui/core';
 import { Transictions } from 'components/Transictions';
 

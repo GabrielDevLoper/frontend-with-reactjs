@@ -6,7 +6,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import { Patient } from '../../../../../context/hooks/Pacient';
 
 import { makeStyles } from '@material-ui/styles';
-import { Card, CardContent, Checkbox, Box } from '@material-ui/core';
+import { Card, CardContent } from '@material-ui/core';
 
 import PatientsEdit from '../PatientEdit';
 import { Transictions } from 'components/Transictions';

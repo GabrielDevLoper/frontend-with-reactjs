@@ -58,17 +58,10 @@ const LatestOrders = props => {
   const [orders] = useState(mockData);
 
   return (
-    <Card
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
+    <Card {...rest} className={clsx(classes.root, className)}>
       <CardHeader
         action={
-          <Button
-            color="primary"
-            size="small"
-            variant="outlined"
-          >
+          <Button color="primary" size="small" variant="outlined">
             New entry
           </Button>
         }
@@ -84,14 +77,8 @@ const LatestOrders = props => {
                   <TableCell>Order Ref</TableCell>
                   <TableCell>Customer</TableCell>
                   <TableCell sortDirection="desc">
-                    <Tooltip
-                      enterDelay={300}
-                      title="Sort"
-                    >
-                      <TableSortLabel
-                        active
-                        direction="desc"
-                      >
+                    <Tooltip enterDelay={300} title="Sort">
+                      <TableSortLabel active direction="desc">
                         Date
                       </TableSortLabel>
                     </Tooltip>
@@ -101,10 +88,7 @@ const LatestOrders = props => {
               </TableHead>
               <TableBody>
                 {orders.map(order => (
-                  <TableRow
-                    hover
-                    key={order.id}
-                  >
+                  <TableRow hover key={order.id}>
                     <TableCell>{order.ref}</TableCell>
                     <TableCell>{order.customer.name}</TableCell>
                     <TableCell>
@@ -129,11 +113,7 @@ const LatestOrders = props => {
       </CardContent>
       <Divider />
       <CardActions className={classes.actions}>
-        <Button
-          color="primary"
-          size="small"
-          variant="text"
-        >
+        <Button color="primary" size="small" variant="text">
           View all <ArrowRightIcon />
         </Button>
       </CardActions>

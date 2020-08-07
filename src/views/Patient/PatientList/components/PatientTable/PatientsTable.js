@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -9,7 +9,6 @@ import {
   CardActions,
   CardContent,
   Avatar,
-  Checkbox,
   Table,
   TableBody,
   TableCell,
@@ -77,42 +76,42 @@ const PatientsTable = props => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
 
-  const handleSelectAll = event => {
-    const { patients } = props;
+  // const handleSelectAll = event => {
+  //   const { patients } = props;
 
-    let selectedPatients;
+  //   let selectedPatients;
 
-    if (event.target.checked) {
-      selectedPatients = patients.map(patient => patient.id);
-    } else {
-      selectedPatients = [];
-    }
-    setSelectedPatients(selectedPatients);
-  };
+  //   if (event.target.checked) {
+  //     selectedPatients = patients.map(patient => patient.id);
+  //   } else {
+  //     selectedPatients = [];
+  //   }
+  //   setSelectedPatients(selectedPatients);
+  // };
 
-  const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedPatients.indexOf(id);
-    let newSelectedPatients = [];
+  // const handleSelectOne = (event, id) => {
+  //   const selectedIndex = selectedPatients.indexOf(id);
+  //   let newSelectedPatients = [];
 
-    if (selectedIndex === -1) {
-      newSelectedPatients = newSelectedPatients.concat(selectedPatients, id);
-    } else if (selectedIndex === 0) {
-      newSelectedPatients = newSelectedPatients.concat(
-        selectedPatients.slice(1)
-      );
-    } else if (selectedIndex === selectedPatients.length - 1) {
-      newSelectedPatients = newSelectedPatients.concat(
-        selectedPatients.slice(0, -1)
-      );
-    } else if (selectedIndex > 0) {
-      newSelectedPatients = newSelectedPatients.concat(
-        selectedPatients.slice(0, selectedIndex),
-        selectedPatients.slice(selectedIndex + 1)
-      );
-    }
+  //   if (selectedIndex === -1) {
+  //     newSelectedPatients = newSelectedPatients.concat(selectedPatients, id);
+  //   } else if (selectedIndex === 0) {
+  //     newSelectedPatients = newSelectedPatients.concat(
+  //       selectedPatients.slice(1)
+  //     );
+  //   } else if (selectedIndex === selectedPatients.length - 1) {
+  //     newSelectedPatients = newSelectedPatients.concat(
+  //       selectedPatients.slice(0, -1)
+  //     );
+  //   } else if (selectedIndex > 0) {
+  //     newSelectedPatients = newSelectedPatients.concat(
+  //       selectedPatients.slice(0, selectedIndex),
+  //       selectedPatients.slice(selectedIndex + 1)
+  //     );
+  //   }
 
-    setSelectedPatients(newSelectedPatients);
-  };
+  //   setSelectedPatients(newSelectedPatients);
+  // };
 
   const handlePageChange = (event, page) => {
     setPage(page);

@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import { useField } from '@unform/core';
-import TextField from '@material-ui/core/TextField';
 
 export default function Input({ name, ...rest }) {
   const inputRef = useRef(null);

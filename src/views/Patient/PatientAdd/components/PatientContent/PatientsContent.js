@@ -422,8 +422,7 @@ const PatientsContent = props => {
 };
 
 PatientsContent.propTypes = {
-  className: PropTypes.string,
-  patients: PropTypes.array.isRequired
+  className: PropTypes.string
 };
 
 export default PatientsContent;

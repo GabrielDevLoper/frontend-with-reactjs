@@ -85,7 +85,7 @@ const useStyles = makeStyles(theme => ({
   input: {
     width: 320,
     height: 30,
-    padding: 5,
+    padding: '0 10px',
     borderRadius: '8px',
     border: 'none',
     backgroundColor: '#d1d9e0',
@@ -141,26 +141,21 @@ const PatientsContent = props => {
         medico_solicitante,
         fone,
         data_entrega,
-        exams: selectedExams
+        exams: selectedExams,
+        //campos do endereço
+        uf: selectedUf,
+        city: selectedCity,
+        neighborhood,
+        street,
+        number: Number(number),
+        zipcode
       });
-
-      const pacient_id = data.id;
 
       if (data.messageAlert) {
         Swal.fire('Erro', 'Paciente já se encontra cadastrado', 'error');
-      } else {
-        await api.post(`/pacients/${pacient_id}/address`, {
-          uf: selectedUf,
-          city: selectedCity,
-          neighborhood,
-          street,
-          number,
-          zipcode
-        });
-
-        Swal.fire('Sucesso', 'Cadastrado com sucesso', 'success');
-        history.push('/patients');
       }
+      Swal.fire('Sucesso', 'Cadastrado com sucesso', 'success');
+      history.push('/patients');
     } catch (error) {
       console.log(error);
     }
@@ -209,7 +204,6 @@ const PatientsContent = props => {
     }
   }
 
-  console.log(selectedExams);
   return (
     <Transictions>
       <Card {...rest} className={clsx(classes.root, className)}>

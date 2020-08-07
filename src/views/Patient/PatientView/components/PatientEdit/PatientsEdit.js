@@ -86,7 +86,7 @@ const useStyles = makeStyles(theme => ({
   input: {
     width: 320,
     height: 30,
-    padding: 5,
+    padding: '0 10px',
     borderRadius: '8px',
     border: 'none',
     backgroundColor: '#d1d9e0',
@@ -140,27 +140,25 @@ const PatientsEdit = props => {
           medico_solicitante,
           fone,
           data_entrega,
-          exams: selectedExams
-        }
-      );
+          exams: selectedExams,
 
-      if (data.messageAlert) {
-        Swal.fire('Erro', 'Paciente já se encontra cadastrado', 'error');
-      } else {
-        await api.put(`/address/${address.id}`, {
           uf: selectedUf,
           city: selectedCity,
           neighborhood,
           street,
           number,
           zipcode
-        });
+        }
+      );
 
-        //desativando botão do editar paciente e voltando para a tela de visualizar
-        setOpenEdit(false);
-        history.push('/patients');
-        Swal.fire('Sucesso', 'Alterado com sucesso', 'success');
+      if (data.messageAlert) {
+        Swal.fire('Erro', 'Paciente já se encontra cadastrado', 'error');
       }
+
+      //desativando botão do editar paciente e voltando para a tela de visualizar
+      setOpenEdit(false);
+      history.push('/patients');
+      Swal.fire('Sucesso', 'Alterado com sucesso', 'success');
     } catch (error) {
       console.log(error);
     }
@@ -314,14 +312,14 @@ const PatientsEdit = props => {
                   <label>Bairro</label>
                   <Input
                     name="neighborhood"
-                    defaultValue={address.neighborhood}
+                    defaultValue={patient.neighborhood}
                     className={classes.input}
                   />
                   <label>Rua</label>
 
                   <Input
                     name="street"
-                    defaultValue={address.street}
+                    defaultValue={patient.street}
                     className={classes.input}
                   />
                 </Box>
@@ -329,13 +327,13 @@ const PatientsEdit = props => {
                   <label>Número</label>
                   <Input
                     name="number"
-                    defaultValue={address.number}
+                    defaultValue={patient.number}
                     className={classes.input}
                   />
                   <label>CEP</label>
                   <Input
                     name="zipcode"
-                    defaultValue={address.zipcode}
+                    defaultValue={patient.zipcode}
                     className={classes.input}
                   />
                 </Box>

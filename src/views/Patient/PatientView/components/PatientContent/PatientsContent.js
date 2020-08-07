@@ -103,27 +103,27 @@ const PatientsContent = props => {
                   </div>
                   <div className={classes.nameContainer}>
                     <h4>UF: </h4>
-                    <span>{address.uf}</span>
+                    <span>{patients.uf}</span>
                   </div>
                   <div className={classes.nameContainer}>
                     <h4>Cidade: </h4>
-                    <span>{address.city}</span>
+                    <span>{patients.city}</span>
                   </div>
                   <div className={classes.nameContainer}>
                     <h4>Bairro: </h4>
-                    <span>{address.neighborhood}</span>
+                    <span>{patients.neighborhood}</span>
                   </div>
                   <div className={classes.nameContainer}>
                     <h4>Rua: </h4>
-                    <span>{address.street}</span>
+                    <span>{patients.street}</span>
                   </div>
                   <div className={classes.nameContainer}>
                     <h4>CEP: </h4>
-                    <span>{address.zipcode}</span>
+                    <span>{patients.zipcode}</span>
                   </div>
                   <div className={classes.nameContainer}>
                     <h4>Número: </h4>
-                    <span>{address.number}</span>
+                    <span>{patients.number}</span>
                   </div>
                 </div>
               </div>

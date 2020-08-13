@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import api from '../../services/api';
 import history from '../../history';
+import Swal from 'sweetalert2';
 
 export default function useAuth() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -24,7 +25,7 @@ export default function useAuth() {
     });
 
     if (data.messageAlert) {
-      alert(`${data.messageAlert}`);
+      Swal.fire('Erro', `${data.messageAlert}`, 'error');
       history.push('/sign-in');
     }
 
